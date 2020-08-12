@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+        "three": "^0.118.3"
+    },
+    "devDependencies": {
+        "three-viewport": "git+https://github.com/i3ernie/three-viewport.git",
+        "three-domevents": "git+https://github.com/i3ernie/three-domevents.git"
+    }
+}
