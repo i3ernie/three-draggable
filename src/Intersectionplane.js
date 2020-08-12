@@ -11,7 +11,8 @@ var _intersection = new Vector3();
 const _dirs = {
     "xz" : new Vector3(0,1,0),
     "xy" : new Vector3(0,0,1),
-    "yz" : new Vector3(1,0,0)
+    "yz" : new Vector3(1,0,0),
+    "cam" : new Vector3(0,0,0)
 };
 
 const Intersectionplane = function( _camera, _raycaster ){
@@ -36,11 +37,17 @@ const Intersectionplane = function( _camera, _raycaster ){
 
         }
     }
+
     this.setPlaneDirectionAndPositon = function( object3d, intersect, dir ){
-        if ( dir == "xz" ) {
+        if ( dir instanceof Vector3 ) {
+            _plane.set( dir, -(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y) );
+        } else if ( dir == "xz" ) {
             console.log(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y);
             _plane.set( _dirs["xz"], -(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y) );
         } else if ( dir == "xy" ) {
+            console.log(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y);
+            _plane.set(  _dirs["xy"], -(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y) );
+        } else if ( dir == "yz" ) {
             console.log(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y);
             _plane.set(  _dirs["xy"], -(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y) );
         } else {
