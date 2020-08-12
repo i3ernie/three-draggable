@@ -31,6 +31,7 @@ const onDragend = function( ev ){
 const DragControl = function( domevents ) {
 
     let scope = this;
+    
     this.iplane = new Intersectionplane( domevents._camera, domevents._ray );
     this._domElement = domevents._domElement;
     this._dirs = {};
@@ -68,17 +69,17 @@ Object.assign( DragControl.prototype, {
 
         this._dirs[object3d.id] = dir || "cam";
 
-        object3d.addEventListener("dragstart", this._dragStart);
-        object3d.addEventListener("drag", this._onDrag );
-        object3d.addEventListener("dragend", this._onDragend );
+        object3d.addEventListener("dragstart",  this._dragStart );
+        object3d.addEventListener("drag",       this._onDrag );
+        object3d.addEventListener("dragend",    this._onDragend );
 
     },
 
     disableDraggable : function( object3d ){
 
-        object3d.removeEventListener("dragstart", this._dragStart);
-        object3d.removeEventListener("drag", this._onDrag );
-        object3d.removeEventListener("dragend", this._onDragend );
+        object3d.removeEventListener("dragstart",   this._dragStart );
+        object3d.removeEventListener("drag",        this._onDrag );
+        object3d.removeEventListener("dragend",     this._onDragend );
 
     },
 
