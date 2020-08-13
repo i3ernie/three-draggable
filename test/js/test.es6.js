@@ -27,9 +27,9 @@ import DragControl from "../../src/DragControl.js";
     mesh.addEventListener("click", function( ev ){
         console.log( "click", ev );
         if ( DC.isDraggable(mesh) ){
-            DC.disableDraggable( mesh );
+            DC.disableDraggable( mesh, "xz" );
         } else {
-            DC.enableDraggable( mesh );
+            DC.enableDraggable( mesh, "xz" );
         }
         
     });
@@ -44,6 +44,10 @@ import DragControl from "../../src/DragControl.js";
     let mesh2 = new WoodBox();
     DC.enableDraggable( mesh2, "cam" );
     mesh2.position.set(110, 0, 110);
+
+    mesh.addEventListener("click", function( ev ){
+        console.log( "click", ev );
+    });
 
     let floor = new THREE.Mesh( new THREE.BoxGeometry( 400 ,1, 400), new THREE.MeshStandardMaterial() );
     floor.position.set(0,-50,0);
