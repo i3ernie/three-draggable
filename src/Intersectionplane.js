@@ -42,10 +42,8 @@ const Intersectionplane = function( _camera, _raycaster ){
         if ( dir instanceof Vector3 ) {
             _plane.set( dir, -(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y) );
         } else if ( dir == "xz" ) {
-            console.log(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y);
             _plane.set( _dirs["xz"], -(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y) );
         } else if ( dir == "xy" ) {
-            console.log(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y);
             _plane.set(  _dirs["xy"], -(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y) );
         } else if ( dir == "yz" ) {
             console.log(_worldPosition.setFromMatrixPosition( intersect.object.matrixWorld ).y + intersect.point.y);
