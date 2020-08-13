@@ -4,6 +4,6 @@
     },
     "devDependencies": {
         "three-viewport": "git+https://github.com/i3ernie/three-viewport.git",
-        "three-domevents": "git+https://github.com/i3ernie/three-domevents.git"
+        "three-domevents": "git+https://i3ernie@github.com/i3ernie/three-domevents.git"
     }
 }
