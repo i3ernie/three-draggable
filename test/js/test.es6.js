@@ -1,21 +1,21 @@
-import * as THREE from "../../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import WoodBox from "./WoodBox.js";
-import Viewport from "../../node_modules/three-viewport/dist/viewport.es.js";
-import ExtendedDomEvents from "../../node_modules/three-domevents/dist/extdomevents.es.js";
+import Viewport from "viewport";
+import { DomeventDrag, DomeventPointer, Domevents} from "domevents";
+
 import DragControl from "../../src/DragControl.js";
 
+Domevents.extend( DomeventPointer.config({emulateClick:true}) );
+Domevents.extend( DomeventDrag );
 
-    let VP = new Viewport();
-   
-
-    VP.init();
-    VP.start();
-
+   const VP = new Viewport().init().start();
     
-    //VP.disableControl();
+   let DEH = new Domevents( VP.camera, VP.renderer.domElement );
 
-   let DEH = new ExtendedDomEvents( VP.camera, VP.renderer.domElement );
-   let DC = new DragControl( DEH );
+   let DC = new DragControl( DEH, {
+    "onDragstart" : VP.disableControl.bind( VP ),
+    "onDragend" : VP.enableControl.bind( VP )
+   });
 
    DEH.activate( VP.scene );
 
@@ -25,7 +25,7 @@ import DragControl from "../../src/DragControl.js";
     DC.enableDraggable( mesh, "xz" );
     
     mesh.addEventListener("click", function( ev ){
-        console.log( "click", ev );
+        console.log( "click", ev ); return;
         if ( DC.isDraggable(mesh) ){
             DC.disableDraggable( mesh, "xz" );
         } else {
@@ -34,10 +34,10 @@ import DragControl from "../../src/DragControl.js";
         
     });
 
-    mesh.addEventListener("mousedown", function( ev ){
+    mesh.addEventListener("pointerdown", function( ev ){
         console.log( "mousedown", ev );
     });
-    mesh.addEventListener("mouseup", function( ev ){
+    mesh.addEventListener("pointerup", function( ev ){
         console.log( "mouseup", ev );
     });
 
@@ -52,6 +52,5 @@ import DragControl from "../../src/DragControl.js";
     let floor = new THREE.Mesh( new THREE.BoxGeometry( 400 ,1, 400), new THREE.MeshStandardMaterial() );
     floor.position.set(0,-50,0);
 
-    VP.scene.add( floor );
-    VP.scene.add( mesh );
-    VP.scene.add( mesh2 );
+    VP.scene.add( floor, mesh, mesh2 );
+    VP.scene.add( DC.iplane.helper );
