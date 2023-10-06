@@ -1,4 +1,4 @@
-import {Vector3} from "../node_modules/three/build/three.module.js";
+import {Vector3, EventDispatcher} from "three";
 import Intersectionplane from "./Intersectionplane.js";
 
 const onDragstart = function( ev ){
@@ -13,9 +13,14 @@ const onDragstart = function( ev ){
 
     this.iplane.setPlaneDirectionAndPositon( object3d, ev.intersect, this._dirs[object3d.id] );
     this.iplane.setOffset( object3d );
+
+    this.dispatchEvent({ type:"dragstart", message:object3d });
+
 };
 
 const onDrag = function( ev ) {
+    if ( !this._draggingObjects[ev.target.id] ) return;
+
     ev.origDomEvent.preventDefault();
     ev.origDomEvent.stopPropagation();
     
@@ -25,45 +30,57 @@ const onDrag = function( ev ) {
 const onDragend = function( ev ){
     this._domElement.style.cursor = 'auto';
     delete this._draggingObjects[ev.target.id];
+
+    this.dispatchEvent({ type:"dragend", message:ev.target });
 };
 
 
-const DragControl = function( domevents ) {
+class DragControl extends EventDispatcher { 
 
-    let scope = this;
-    
-    this.iplane = new Intersectionplane( domevents._camera, domevents._ray );
-    this._domElement = domevents._domElement;
-    this._dirs = {};
-    this._draggingObjects = {};
+    constructor ( domevents, opts ) {
 
-    this._domElement.addEventListener("mousemove", function( ev ){
-		if ( Object.keys( this._draggingObjects ).length > 0 ){
-			ev.preventDefault();
-			ev.stopPropagation();
-		}
-	}.bind( this ) );
+        super();
 
-    this._dragStart = function( ev ){
-        onDragstart.call( scope, ev );
-    };
+        const scope = this;
 
-    this._onDrag = function( ev ){
-        onDrag.call( scope, ev );
-    };
+        if ( opts ) {
+            if ( typeof opts.onDragstart === "function" ) { 
+                this.addEventListener("dragstart", opts.onDragstart);
+            }
+            if ( typeof opts.onDragend === "function" ) {
+                this.addEventListener("dragend", opts.onDragend);
+            }
+        }
+        
+        this.iplane = new Intersectionplane( domevents._camera, domevents._ray );
+        this._domElement = domevents._domElement;
+        this._dirs = {};
+        this._draggingObjects = {};
 
-    this._onDragend = function( ev ){
-        onDragend.call( scope, ev );
-    };
-};
+        this._domElement.addEventListener("pointermove", function( ev ){
+            if ( Object.keys( this._draggingObjects ).length > 0 ){
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
+        }.bind( this ) );
 
-Object.assign( DragControl.prototype, {
+        this._dragStart = function( ev ){
+            onDragstart.call( scope, ev );
+        };
 
-    enableDraggable : function( object3d, dir ){ 
+        this._onDrag = function( ev ){
+            onDrag.call( scope, ev );
+        };
 
-        let scope = this;
+        this._onDragend = function( ev ){
+            onDragend.call( scope, ev );
+        };
+    }
 
-        if( this.isDraggable( object3d ) ){
+    enableDraggable ( object3d, dir ) { 
+
+
+        if ( this.isDraggable( object3d ) ) {
             this.disableDraggable( object3d );
         }
 
@@ -73,25 +90,25 @@ Object.assign( DragControl.prototype, {
         object3d.addEventListener("drag",       this._onDrag );
         object3d.addEventListener("dragend",    this._onDragend );
 
-    },
+    }
 
-    disableDraggable : function( object3d ){
+    disableDraggable ( object3d ) {
 
         object3d.removeEventListener("dragstart",   this._dragStart );
         object3d.removeEventListener("drag",        this._onDrag );
         object3d.removeEventListener("dragend",     this._onDragend );
 
-    },
+    }
 
-    isDraggable : function( object3d ){
+    isDraggable ( object3d ) {
 
         return object3d.hasEventListener("drag", this._onDrag );
 
-    },
+    }
 
-    pauseDragging : function(){
+    pauseDragging () {
         //ToDo
     }
-});
+}
 
 export default DragControl;
