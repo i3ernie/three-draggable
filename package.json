@@ -1,8 +1,15 @@
 {
     "dependencies": {
-        "three": "^0.118.3"
+        "three": "^0.151"
     },
     "devDependencies": {
+        "es-module-shims" : "latest",
+        "gulp": "latest",
+
+        "rollup": "latest",
+   
+        "rollup-plugin-node-resolve": "latest",
+        
         "three-viewport": "git+https://github.com/i3ernie/three-viewport.git",
         "three-domevents": "git+https://i3ernie@github.com/i3ernie/three-domevents.git"
     }
