@@ -1,0 +1,30 @@
+<hhtml>
+    <head>
+        <style>
+            body {
+                margin: 0;
+                overscroll-behavior: none;
+            }
+            canvas {
+                display: block;
+            }
+        </style>
+        <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "./js/vendor/three.module.js",
+                    "OrbitControls" : "./js/vendor/OrbitControls.js",
+                    "viewport" : "./js/vendor/viewport.es.js",
+                    "domevents" : "./js/vendor/domevents.pack.es.js"
+                }
+            }
+        </script>
+            <script type="module" src="./js/test.es6.js"></script>
+            
+    </head>
+    <body>
+
+    </body>
+</hhtml>
