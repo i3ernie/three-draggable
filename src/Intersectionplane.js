@@ -1,4 +1,4 @@
-import {Plane, PlaneHelper, Vector3, Matrix4} from "three";
+import {Plane, Vector3, Matrix4} from "three";
 import Intersectionhelper from "./IntersectionHelper.js";
 
 const _inverseMatrix = new Matrix4();
