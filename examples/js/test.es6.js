@@ -25,7 +25,7 @@ Domevents.extend( DomeventDrag );
     DC.enableDraggable( mesh, "xz" );
     
     mesh.addEventListener("click", function( ev ){
-        console.log( "click", ev ); return;
+        console.log( "click", ev );
         if ( DC.isDraggable(mesh) ){
             DC.disableDraggable( mesh, "xz" );
         } else {
