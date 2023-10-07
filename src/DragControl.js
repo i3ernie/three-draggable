@@ -18,13 +18,33 @@ const onDragstart = function( ev ){
 
 };
 
-const onDrag = function( ev ) {
-    if ( !this._draggingObjects[ev.target.id] ) return;
+const onDrag = function( ev ) { 
 
-    ev.origDomEvent.preventDefault();
-    ev.origDomEvent.stopPropagation();
+    if ( this._draggingObjects[ev.target.id] ) {
+
+        ev.origDomEvent.preventDefault();
+        ev.origDomEvent.stopPropagation();
+        
+        this.iplane.setPosition( ev.target );
+
+        return;
+    }
+
+    ev.intersects.every( ( obj ) => {
+
+        if ( this._draggingObjects[obj.object.id] ) {
+
+            ev.origDomEvent.preventDefault();
+            ev.origDomEvent.stopPropagation();
+            this.iplane.setPosition( this._draggingObjects[obj.object.id] );
+
+            return false;
+        }
+
+        return true;
+
+    }); 
     
-    this.iplane.setPosition( ev.target );
 };
 
 const onDragend = function( ev ){

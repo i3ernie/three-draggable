@@ -3,7 +3,7 @@ import WoodBox from "./WoodBox.js";
 import Viewport from "viewport";
 import { DomeventDrag, DomeventPointer, Domevents} from "domevents";
 
-import DragControl from "../../src/DragControl.js";
+import DragControl from "../../dist/draggable.es.js";
 
 Domevents.extend( DomeventPointer.config({emulateClick:true}) );
 Domevents.extend( DomeventDrag );
