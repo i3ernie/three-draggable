@@ -56,8 +56,8 @@ const replace = function( obj ){
 module.exports = replace;
 
 gulp.task('default', ( done ) => {
-    build_viewport( ()=>{
-        build_domeventsES(()=>{
+    build_packAMD( ()=>{
+        build_packES(()=>{
             done();
         });
     });
@@ -72,22 +72,22 @@ gulp.task('init', ( done ) => {
 
 gulp.task("build", ( done ) => {
     "use strict";
-    build_viewport( ()=>{
-        build_domeventsES(()=>{
+    build_packAMD( ()=>{
+        build_packES(()=>{
             done();
         });
     });
     
 });
 
-gulp.task("buildAMD", ( done )=>{
-    build_viewport( done );
+gulp.task("build_packAMD", ( done )=>{
+    build_packAMD( done );
 });
 
-const build_viewport = function( done ){
+const build_packAMD = function( done ){
    
     rollup.rollup({
-        input : 'src/Viewport.js',
+        input : 'src/DragControl.js',
         external: ['../node_modules/three/build/three.module.js',  '../node_modules/three/examples/jsm/controls/OrbitControls.js'],
         
         plugins:[
@@ -98,7 +98,7 @@ const build_viewport = function( done ){
         ]
     }).then(( bundle ) => { 
         bundle.write({
-            file: './dist/viewport.amd.js',
+            file: './dist/draggable.amd.js',
 
 
             plugins:[
@@ -119,14 +119,14 @@ const build_viewport = function( done ){
     );
 };
 
-gulp.task("buildES", ( done ) => {
-    build_viewportES( done );
+gulp.task("build_packES", ( done ) => {
+    build_packES( done );
 });
 
-const build_viewportES = function( done ){
+const build_packES = function( done ){
    
     rollup.rollup({
-        input : 'src/Viewport.js',
+        input : 'src/DragControl.js',
         external: ['three', '../node_modules/three/examples/jsm/controls/OrbitControls.js'],
         
         plugins:[
@@ -135,7 +135,7 @@ const build_viewportES = function( done ){
         ]
     }).then(( bundle ) => { 
         bundle.write({
-            file: './dist/viewport.es.js',
+            file: './dist/draggable.es.js',
             plugins:[
                 replace({
                     "../node_modules/three/" : "three"
