@@ -1,4 +1,4 @@
-import {Vector3, EventDispatcher} from "three";
+import {EventDispatcher} from "three";
 import Intersectionplane from "./Intersectionplane.js";
 
 const onDragstart = function( ev ){
