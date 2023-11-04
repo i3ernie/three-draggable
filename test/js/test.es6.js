@@ -41,6 +41,10 @@ Domevents.extend( DomeventDrag );
         console.log( "mouseup", ev );
     });
 
+    mesh.addEventListener("moved", ( ev ) => {
+        console.log("====>", ev);
+    });
+
     let mesh2 = new WoodBox();
     DC.enableDraggable( mesh2, "cam" );
     mesh2.position.set(110, 0, 110);

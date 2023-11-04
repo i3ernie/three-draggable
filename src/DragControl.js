@@ -1,5 +1,7 @@
-import {EventDispatcher} from "three";
+import {EventDispatcher, Vector3} from "three";
 import Intersectionplane from "./Intersectionplane.js";
+
+const _vec = new Vector3();
 
 const onDragstart = function( ev ){
     
@@ -25,7 +27,13 @@ const onDrag = function( ev ) {
         ev.origDomEvent.preventDefault();
         ev.origDomEvent.stopPropagation();
         
+        _vec.copy( ev.target.position );
         this.iplane.setPosition( ev.target );
+
+        ev.target.dispatchEvent(Object.assign({}, ev, {
+            type:"moved", 
+            direction:new Vector3().subVectors (ev.target.position, _vec)
+        }));
 
         return;
     }
