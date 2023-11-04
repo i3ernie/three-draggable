@@ -84,6 +84,8 @@ const Intersectionplane = function( _camera, _raycaster, opts ) {
     };
 };
 
+const _vec = new Vector3();
+
 const onDragstart = function( ev ){
     
     let object3d = ev.target;
@@ -108,7 +110,13 @@ const onDrag = function( ev ) {
         ev.origDomEvent.preventDefault();
         ev.origDomEvent.stopPropagation();
         
+        _vec.copy( ev.target.position );
         this.iplane.setPosition( ev.target );
+
+        ev.target.dispatchEvent(Object.assign({}, ev, {
+            type:"moved", 
+            direction:new Vector3().subVectors (ev.target.position, _vec)
+        }));
 
         return;
     }

@@ -1,7 +1,10 @@
 {
+    "version" : "0.151.3",
+    
     "dependencies": {
         "three": "^0.151"
     },
+
     "devDependencies": {
         "es-module-shims" : "latest",
         "gulp": "latest",
